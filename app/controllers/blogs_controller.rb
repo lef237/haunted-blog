@@ -11,6 +11,11 @@ class BlogsController < ApplicationController
 
   def show
     @blog = Blog.find(params[:id])
+    if @blog.secret && @blog.user != current_user
+      redirect_to blogs_url, notice: 'This page cannot be accessed.'
+    else
+      @blog = Blog.find(params[:id])
+    end
   end
 
   def new
