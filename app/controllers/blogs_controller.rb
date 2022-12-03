@@ -11,10 +11,9 @@ class BlogsController < ApplicationController
 
   def show
     @blog = Blog.find(params[:id])
-    if @blog.secret && @blog.user != current_user
-      raise ActiveRecord::RecordNotFound
-      redirect_to blogs_url, notice: 'This page cannot be accessed.'
-    else
+    if current_user.nil? || (current_user != @blog.user)
+      @blog = Blog.where(secret: false).find(params[:id])
+    elsif @blog.user == current_user
       @blog = Blog.find(params[:id])
     end
   end
