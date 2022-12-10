@@ -7,7 +7,7 @@
         このブログは書いた本人しか見えない秘密のブログです。
       </div>
     <% end %>
-    <% if blog.random_eyecatch? %>
+    <% if blog.random_eyecatch? && blog.user.premium %>
       <div class="blog-eyecatch">
         <img class="resize" src="https://picsum.photos/536/354">
       </div>
