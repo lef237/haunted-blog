@@ -11,11 +11,7 @@ class BlogsController < ApplicationController
 
   def show
     @blog = Blog.find(params[:id])
-    if @blog.user != current_user
-      @blog = Blog.published.find(params[:id])
-    elsif @blog.user == current_user
-      @blog
-    end
+    @blog = Blog.published.find(params[:id]) if @blog.user != current_user
   end
 
   def new
@@ -55,7 +51,7 @@ class BlogsController < ApplicationController
   end
 
   def blog_params
-    permit_keys = [:title, :content, :secret]
+    permit_keys = %i[title content secret]
     permit_keys.push(:random_eyecatch) if current_user.premium
     params.require(:blog).permit(permit_keys)
   end
